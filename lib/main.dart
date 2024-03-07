@@ -31,11 +31,11 @@ FirebaseAuth.instance
   .listen((User? user) {
     if (user == null) {
        {
-        print('++++++++++++++User is currently signed out!');
+        print('+++++++++++++User is currently signed out!');
       }
     } else {
       {
-        print('===================User is signed in!');
+        print('================User is signed in!');
       }
     }
   });
