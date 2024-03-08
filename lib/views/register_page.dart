@@ -10,15 +10,25 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-    final _formkey = GlobalKey<FormState>();
+  final _formkey = GlobalKey<FormState>();
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Ecommerce"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRoutes.loginPageRoute);
+              },
+              icon: const Icon(Icons.exit_to_app))
+        ],
+      ),
       body: Form(
         key: _formkey,
         child: Padding(
@@ -45,11 +55,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (val) =>
                         val!.isEmpty ? "please Enter your Email!" : null,
                     decoration: const InputDecoration(
-                        labelText: "Email",
-                        hintText: "Enter Your Email!",
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),),
+                      labelText: "Email",
+                      hintText: "Enter Your Email!",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -60,50 +70,46 @@ class _RegisterPageState extends State<RegisterPage> {
                     textInputAction: TextInputAction.next,
                     validator: (val) =>
                         val!.isEmpty ? "please Enter your Password!" : null,
-                   decoration: const InputDecoration(
-                        labelText: "password",
-                        hintText: "Enter Your password!",
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),),
+                    decoration: const InputDecoration(
+                      labelText: "password",
+                      hintText: "Enter Your password!",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                    ),
                   ),
                   const SizedBox(
                     height: 30,
                   ),
                   ElevatedButton(
-                      onPressed: () async{ 
-                        try {
-  final UserCredential() = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-    email: _emailController.text,
-    password: _passwordController.text,
-    
-  );
-   Navigator.of(context)
-                          .pushNamed(AppRoutes.homePageRoute);
-} on FirebaseAuthException catch (e) {
-  if (_formkey.currentState!.validate()) {
-    {
-      print('The password provided is too weak.');
-     
-    }
-    
-  } else if (e.code == 'email-already-in-use') {
-   {
-      print('The account already exists for that email.');
-        
-    }
-  
-  }
-} catch (e) {
-  print(e);
-}
-                       },
-                      child: const Text(
-                        "register",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                      ),
-                    
+                    onPressed: () async {
+                      try {
+                        final UserCredential() = await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
+                        Navigator.of(context)
+                            .pushNamed(AppRoutes.homePageRoute);
+                      } on FirebaseAuthException catch (e) {
+                        if (_formkey.currentState!.validate()) {
+                          {
+                            debugPrint('The password provided is too weak.');
+                          }
+                        } else if (e.code == 'email-already-in-use') {
+                          {
+                            debugPrint(
+                                'The account already exists for that email.');
+                          }
+                        }
+                      } catch (e) {
+                        debugPrint(e as String?);
+                      }
+                    },
+                    child: const Text(
+                      "register",
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ),
                   const SizedBox(
                     height: 30,
                   ),

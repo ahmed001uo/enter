@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-     options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
 }
@@ -22,23 +22,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-@override
+  @override
   void initState() {
-
-FirebaseAuth.instance
-  .authStateChanges()
-  .listen((User? user) {
-    if (user == null) {
-       {
-        print('+++++++++++++User is currently signed out!');
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        {
+          debugPrint('+++++++++++++User is currently signed out!');
+        }
+      } else {
+        {
+          debugPrint('================User is signed in!');
+        }
       }
-    } else {
-      {
-        print('================User is signed in!');
-      }
-    }
-  });
+    });
     super.initState();
   }
 
@@ -61,17 +57,20 @@ FirebaseAuth.instance
             borderSide: const BorderSide(
               color: Colors.grey,
             ),
-            
           ),
-          errorBorder: OutlineInputBorder(  borderRadius: BorderRadius.circular(10),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(
-              color: Colors.red,),),
+              color: Colors.red,
+            ),
           ),
+        ),
         useMaterial3: true,
-        
       ),
-     onGenerateRoute: onGenerate,
-     initialRoute: FirebaseAuth.instance.currentUser == null ? AppRoutes.loginPageRoute : AppRoutes.homePageRoute,
+      onGenerateRoute: onGenerate,
+      initialRoute: FirebaseAuth.instance.currentUser == null
+          ? AppRoutes.loginPageRoute
+          : AppRoutes.homePageRoute,
     );
   }
 }
